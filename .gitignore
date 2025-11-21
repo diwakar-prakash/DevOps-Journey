@@ -1,0 +1,14 @@
+# System /junk
+node_modules/
+.env
+npm-debug.log
+.DS_Store
+.vscode/
+
+
+Learning/
+
+dp_data/
+redis_data/
+
+

@@ -1,0 +1,16 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+     - "4000:4000"
+
+  redis:
+    image: redis:alpine
+    volumes:
+      -  dp_data:/data
+    ports:
+      -  "6000:6000"
+
+volumes:
+  dp_data:
+
