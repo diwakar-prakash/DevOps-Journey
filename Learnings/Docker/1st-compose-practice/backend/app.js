@@ -5,18 +5,23 @@ const app = express();
 
 const redis = new Redis({
     // yahan par aapko ( matlab us ), we have to write the service name along with it's port
-    host : "redis",
-    port : 6379
+    host : process.env.Redis_Host,
+    port : process.env.Redis_Port
 });
 
 app.get('/', async ( req, res ) => {
     await redis.set("naam", "Diwakar, The Billionaire...");
-    const valueOfThingsWeSet = await redis.get("naam");
+    const valueOfNameThing = await redis.get("naam");
 
+    await redis.set("friend", "Vivek and Harsh are friend of mine.")
+    const valueofFriendThing = await redis.get("friend");
 
     res.status(200).json({
         message : "Bool Bhai, kii haal hai",
-        redisValue : valueOfThingsWeSet
+        redisvalues : {
+            naam : valueOfNameThing,
+            friend : valueofFriendThing
+        }
     })
 })
 
