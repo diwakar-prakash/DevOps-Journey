@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Frontend Container</title>
+  </head>
+  <link rel="stylesheet" href="style.css">
+  <body>
+    <div class="container">
+      <h1 class="heading">Frontend is Running in Docker ✅</h1>
+      <button onclick="getData()" class="btn">Button</button>
+
+      <p id="output"></p>
+    </div>
+
+    <script>
+      async function getData() {
+        const response = await fetch("/api");
+        const data = await response.json();
+
+        document.getElementById("output").innerText = JSON.stringify(
+          data,
+          null,
+          2
+        );
+      }
+    </script>
+  </body>
+</html>
