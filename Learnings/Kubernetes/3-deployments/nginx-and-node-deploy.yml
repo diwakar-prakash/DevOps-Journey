@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      app: nginx
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    spec: 
+      containers:
+        - name: nginx
+          image: nginx
+          ports:  
+            - containerPort: 80
+
+        - name: node
+          image: diwakar5041/k8s-node-server:1.0
+          ports:
+            - containerPort: 4001
+
+        
+
+
+
