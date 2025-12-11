@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: node-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    
+    spec:
+      containers:
+        - name: node
+          image: diwakar5041/k8s-node-server:1.0
+          ports:
+            - containerPort: 4001 
+
