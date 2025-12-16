@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_NAME: my-backend
+  APP_ENV: dev
+  LOG_LEVEL: debug
+
