@@ -1,0 +1,45 @@
+diwakar5041@dpksh:~$ kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   11d
+ingress-nginx     Active   11d
+kube-node-lease   Active   11d
+kube-public       Active   11d
+kube-system       Active   11d
+diwakar5041@dpksh:~$ kubectl create namespace dev
+namespace/dev created
+diwakar5041@dpksh:~$ kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   11d
+dev               Active   18s
+ingress-nginx     Active   11d
+kube-node-lease   Active   11d
+kube-public       Active   11d
+kube-system       Active   11d
+diwakar5041@dpksh:~$ cd Code/Dev_Ops/Learnings/Kubernetes/12-namespace/
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ ls
+dev-pod.yml
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ kubectl apply -f dev-pod.yml 
+pod/pod-dev-1 created
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ kubectl get pods
+NAME     READY   STATUS    RESTARTS      AGE
+sc-pod   1/1     Running   7 (27m ago)   20h
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ kubectl get pods -n pod
+No resources found in pod namespace.
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ kubectl get pods -n dev
+NAME        READY   STATUS    RESTARTS   AGE
+pod-dev-1   1/1     Running   0          33s
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ kubectl delete pod pod-dev-1 -n dev
+pod "pod-dev-1" deleted
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ kubectl apply -f dev-pod.yml 
+pod/pod-dev-1 created
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ kubectl config set-context --current --namespace=dev
+Context "minikube" modified.
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ kubectl get pods
+NAME        READY   STATUS    RESTARTS   AGE
+pod-dev-1   1/1     Running   0          21s
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ kubectl get pods -n default
+NAME     READY   STATUS    RESTARTS      AGE
+sc-pod   1/1     Running   7 (29m ago)   20h
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/12-namespace$ 
+
+
