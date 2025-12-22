@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: manual-pod
+  namespace: dev
+  labels:
+    app: demo
+    env: dev
+spec:
+  containers:
+    - name: app
+      image: busybox
+      command: ['sh', '-c', 'sleep 7200']
+
+

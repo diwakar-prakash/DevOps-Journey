@@ -1,0 +1,28 @@
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/13-labels$ kubectl get deployments -n dev
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+demo-deployment   2/2     2            2           99s
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/13-labels$ kubectl get pods -n dev
+NAME                               READY   STATUS    RESTARTS      AGE
+demo-deployment-7bbc4565dd-nwnfx   1/1     Running   0             105s
+demo-deployment-7bbc4565dd-t2p2l   1/1     Running   0             105s
+manual-pod                         1/1     Running   0             8m52s
+pod-dev-1                          1/1     Running   1 (38m ago)   98m
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/13-labels$ kubectl get pods
+NAME     READY   STATUS    RESTARTS        AGE
+sc-pod   1/1     Running   9 (7m37s ago)   22h
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/13-labels$ kubectl get deployments
+No resources found in default namespace.
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/13-labels$ ls
+label-deployment.yml  labeled-pod.yml
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/13-labels$ kubectl get pods -n dev --show-labels
+NAME                               READY   STATUS    RESTARTS      AGE     LABELS
+demo-deployment-7bbc4565dd-nwnfx   1/1     Running   0             2m36s   app=demo,env=dev,pod-template-hash=7bbc4565dd
+demo-deployment-7bbc4565dd-t2p2l   1/1     Running   0             2m36s   app=demo,env=dev,pod-template-hash=7bbc4565dd
+manual-pod                         1/1     Running   0             9m43s   app=demo,env=dev
+pod-dev-1                          1/1     Running   1 (39m ago)   99m     <none>
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/13-labels$ kubectl get deployments -n dev --show-labels
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE     LABELS
+demo-deployment   2/2     2            2           2m53s   <none>
+diwakar5041@dpksh:~/Code/Dev_Ops/Learnings/Kubernetes/13-labels$ 
+
+
