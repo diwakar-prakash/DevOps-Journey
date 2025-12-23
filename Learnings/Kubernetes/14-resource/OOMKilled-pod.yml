@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: oomkilled-pod
+  namespace: dev
+  labels:
+    app: dev
+spec:
+  containers:
+    - name: dev
+      image: busybox
+      command: ['sh', '-c', 'tail /dev/zero']
+      resources:
+        limits:
+          memory: "32Mi"
+
