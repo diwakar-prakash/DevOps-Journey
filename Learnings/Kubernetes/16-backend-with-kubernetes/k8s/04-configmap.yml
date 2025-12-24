@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: task-config
+  namespace: task
+data:
+  PORT: "3000"
+  NODE_ENV: "development"
+
