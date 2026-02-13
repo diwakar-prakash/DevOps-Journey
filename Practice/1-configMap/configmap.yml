@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pehla-config
+data: 
+  NAME: diwakar
+  YEAR: "3"
+  COURCE: k8s
+

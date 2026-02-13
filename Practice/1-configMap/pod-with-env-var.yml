@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-configmap
+spec:
+  containers:
+    - name: dp-container-1
+      image: nginx
+      envFrom:
+        - configMapRef:
+            name: pehla-config
+
