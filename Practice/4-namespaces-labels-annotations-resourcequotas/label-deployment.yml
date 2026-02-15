@@ -3,7 +3,7 @@ kind: Deployment
 metadata: 
   name: diwakar-deployment
   namespace: vivek
-  namespace:
+  annotations:
     owner: diwakar
     networth: "108 billion dollars"
 spec:
@@ -22,4 +22,12 @@ spec:
         - name: diwakar-deployment-container
           image: busybox
           command: ["sh", "-c", "sleep 3600"]
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+
 
