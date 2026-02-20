@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: nginx-deployment
 spec:
-  replicas: 3
+  replicas: 1
 
   strategy:
     type: RollingUpdate
@@ -27,9 +27,9 @@ spec:
 
         resources:
           requests:
-            cpu: "100m"
+            cpu: "50m"
           limits:
-            cpu: "200m"
+            cpu: "100m"
 
 
         livenessProbe:
