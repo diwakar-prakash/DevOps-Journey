@@ -30,7 +30,7 @@ jobs:
         run: npm test
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifact
           path: Learnings/CI-CD/1-ci-phase1-node/build/
