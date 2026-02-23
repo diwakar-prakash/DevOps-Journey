@@ -1,0 +1,34 @@
+name: Docker CI Pipeline
+
+on:
+  push:
+    branches:
+      - main:
+    paths:
+      - 'Learnings/CI-CD/2-ci-docker-node/**'
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Learnings/CI-CD/2-ci-docker-node
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Unit Tests
+        run: npm test
+
+
