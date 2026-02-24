@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'Learnings/CI-CD/1-ci-phase1-node/**'   
 
 jobs:
   build-and-test:
