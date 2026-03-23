@@ -9,4 +9,10 @@ app.get("/health", (req, res) => {
   });
 });
 
+app.get("/vivek", ( req, res ) => {
+  res.status(200).json({
+    message : "Vivek bhai Aache hai"
+  })
+})
+
 module.exports = app;
