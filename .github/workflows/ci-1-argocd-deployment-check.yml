@@ -2,6 +2,8 @@ name: CI Pipeline
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'Learnings/CI-CD/4-gitops-node-app/**'
 
