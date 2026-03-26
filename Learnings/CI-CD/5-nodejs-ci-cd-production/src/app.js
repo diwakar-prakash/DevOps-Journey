@@ -13,8 +13,10 @@ app.get('/health', ( req, res ) => {
 
 app.get('/users', ( req, res ) => {
     res.json([
-        { id: 1, name: "Diwakar" },
-        { id: 2, name: "Vivek Chaudhary" }
+        { id: 1, name: "Diwakar Motabhai" },
+        { id: 2, name: "Vivek Rajnikant" },
+        { id : 3, name : "Harsh Undertaker" },
+        { id : 4, name: "Sonu Mulla" } 
     ]);
 });
 
