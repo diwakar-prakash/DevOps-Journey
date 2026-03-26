@@ -52,15 +52,9 @@ jobs:
           docker tag nodejs-ci-cd-production:${{ github.sha }} \
           211125333487.dkr.ecr.us-east-1.amazonaws.com/nodejs-ci-cd-production:${{ github.sha }}
 
-      - name: Tag Docker image (latest)
-        run: |
-          docker tag nodejs-ci-cd-production:${{ github.sha }} \
-          211125333487.dkr.ecr.us-east-1.amazonaws.com/nodejs-ci-cd-production:latest
-
       - name: Push to ECR
         run: |
           docker push 211125333487.dkr.ecr.us-east-1.amazonaws.com/nodejs-ci-cd-production:${{ github.sha }}
-          docker push 211125333487.dkr.ecr.us-east-1.amazonaws.com/nodejs-ci-cd-production:latest
 
       - name: Clone GitOps repo
         run: |
