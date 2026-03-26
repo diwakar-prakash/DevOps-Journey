@@ -62,4 +62,21 @@ jobs:
           docker push 211125333487.dkr.ecr.us-east-1.amazonaws.com/nodejs-ci-cd-production:${{ github.sha }}
           docker push 211125333487.dkr.ecr.us-east-1.amazonaws.com/nodejs-ci-cd-production:latest
 
+      - name: Clone GitOps repo
+        run: |
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/diwakar-prakash/DevOps-GitOps-Deployments.git
+
+      - name: Update image tag
+        run: |
+          cd DevOps-GitOps-Deployments/services/5-nodejs-ci-cd-production
+          sed -i "s/tag:.*/tag: \"${{ github.sha }}\"/" values.yaml
+
+      - name: Commit and push changes
+        run: |
+          cd DevOps-GitOps-Deployments
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Update image tag to ${{ github.sha }}" || echo "No changes to commit"
+          git push
 

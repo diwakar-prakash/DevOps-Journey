@@ -14,7 +14,7 @@ app.get('/health', ( req, res ) => {
 app.get('/users', ( req, res ) => {
     res.json([
         { id: 1, name: "Diwakar" },
-        { id: 2, name: "DevOps Engineer" }
+        { id: 2, name: "Vivek" }
     ]);
 });
 
