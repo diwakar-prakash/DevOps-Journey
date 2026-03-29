@@ -70,10 +70,8 @@ jobs:
           git clone https://${{ secrets.GH_TOKEN }}@github.com/diwakar-prakash/DevOps-GitOps-Deployments.git
           cd DevOps-GitOps-Deployments/services/6-multi-service-app
 
-          sed -i 's/userTag:.*/userTag: "${{ github.sha }}"/' values.yaml
-          sed -i 's/productTag:.*/productTag: "${{ github.sha }}"/' values.yaml
-          sed -i 's/gatewayTag:.*/gatewayTag: "${{ github.sha }}"/' values.yaml
-
+          sed -i 's/tag:.*/tag: "${{ github.sha }}"/' values.yaml
+          
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
