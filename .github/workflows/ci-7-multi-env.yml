@@ -1,0 +1,92 @@
+name: Multi-Service Multi-Env CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Learnings/CI-CD/7-multi-env-microservices-app/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Learnings/CI-CD/7-multi-env-microservices-app
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Test User Service
+        run: |
+          npm --prefix user-service ci
+          npm --prefix user-service test
+
+      - name: Build & Push User Image
+        run: |
+          docker build -t diwakar5041/user-service:${{ github.sha }} user-service
+          docker push diwakar5041/user-service:${{ github.sha }}
+
+      # Product Service
+      - name: Test Product Service
+        run: | 
+          npm --prefix product-service ci
+          npm --prefix product-service test
+
+      - name: Build and Push Product Image
+        run: |
+          docker build -t diwakar5041/product-service:${{ github.sha }} product-service
+          docker push diwakar5041/product-service:${{ github.sha }}
+
+      # Order Service
+      - name: Test Order Service
+        run: |
+          npm --prefix order-service ci
+          npm --prefix order-service test
+
+      - name: Build and Push Order Image
+        run: |
+          docker build -t diwakar5041/order-service:${{ github.sha }} order-service
+          docker push diwakar5041/order-service:${{ github.sha }}
+
+      # API Gateway
+      - name: Test API Gateway
+        run: |
+          npm --prefix api-gateway ci
+          npm --prefix api-gateway test
+
+      - name: Build and Push Gateway Image
+        run: |
+          docker build -t diwakar5041/api-gateway:${{ github.sha }} api-gateway
+          docker push diwakar5041/api-gateway:${{ github.sha }} 
+
+      # Update the HELM
+
+      - name: Update Helm Values (Prod)
+        run: |
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/diwakar-prakash/DevOps-GitOps-Deployments.git
+          cd DevOps-GitOps-Deployments/services/7-multi-env-microservices-app
+
+          # we are only changing the values of the production kyuik i thought only change the Production namespace
+          sed -i 's/tag:.*/tag: "${{ github.sha }}"/' values-prod.yaml
+
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git add .
+          git commit -m "update prod image to ${{ github.sha }}"
+          git push 
+
