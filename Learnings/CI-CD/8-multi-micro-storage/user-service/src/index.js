@@ -15,7 +15,7 @@ const pool = new Pool({
 app.get("/users", (req, res) => {
     res.status(200).json([
         { id: 1, name: "Donald" },
-        { id: 2, name: "Kier" }
+        { id: 2, name: "Morgan" }
     ]);
 });
 
