@@ -1,0 +1,75 @@
+name: Probes CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Learnings/CI-CD/9-config-probes-system/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      working-directory: Learnings/CI-CD/9-config-probes-system
+
+    steps:
+      - name: Cheez check karna
+        uses: actions/checkout@v3
+
+      - name: Node bhai ka setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: user service ka test
+        run: |
+          npm --prefix user-service ci
+          npm --prefix user-service test
+
+      - name: build and push user image
+        run: |
+          docker build -t diwakar5041/user-service:${{ github.sha }} user-service
+          docker push diwakar5041/user-service:{{ github.sha }}
+
+      - name: product service ka test
+        run: |
+          npm --prefix product-service ci
+          npm --prefix product-service test
+
+      - name: build and push product image
+        run: |
+          docker build -t diwakar5041/product-service:${{ github.sha }} product-service
+          docker push diwakar5041/product-service:${{ github.sha }}
+
+      - name: api gateway ka test
+        run: |
+          npm --prefix api-gateway ci
+          npm --prefix api-gateway test
+
+      - name: build and push gateway image
+        run: |
+          docker build -t diwakar5041/api-gateway:${{ github.sha }} api-gateway
+          docker push diwakar5041/api-gateway:${{ github.sha }}
+
+      - name: Update Helm Values
+        run: |
+          - git clone https://${{ secrets.GH_TOKEN }}@github.com/diwakar-prakash/DevOps-GitOps-Deployments.git
+            cd DevOps-GitOps-Deployments/services/9-config-probes-system
+
+            sed -i 's/tag:.*/tag: "${{ github.sha }}"/' values-prod.yaml
+
+            git config user.name "github-actions" 
+            git config user.email "actions@github.com" 
+            
+            git add . 
+            git commit -m "update prod image to ${{ github.sha }}" 
+            git push
+
