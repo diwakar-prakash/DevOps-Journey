@@ -12,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     defaults:
-      working-directory: Learnings/CI-CD/9-config-probes-system
+      run:
+        working-directory: Learnings/CI-CD/9-config-probes-system
 
     steps:
       - name: Cheez check karna
@@ -37,7 +38,7 @@ jobs:
       - name: build and push user image
         run: |
           docker build -t diwakar5041/user-service:${{ github.sha }} user-service
-          docker push diwakar5041/user-service:{{ github.sha }}
+          docker push diwakar5041/user-service:${{ github.sha }}
 
       - name: product service ka test
         run: |
@@ -61,15 +62,15 @@ jobs:
 
       - name: Update Helm Values
         run: |
-          - git clone https://${{ secrets.GH_TOKEN }}@github.com/diwakar-prakash/DevOps-GitOps-Deployments.git
-            cd DevOps-GitOps-Deployments/services/9-config-probes-system
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/diwakar-prakash/DevOps-GitOps-Deployments.git
+          cd DevOps-GitOps-Deployments/services/9-config-probes-system
 
-            sed -i 's/tag:.*/tag: "${{ github.sha }}"/' values-prod.yaml
+          sed -i 's/tag:.*/tag: "${{ github.sha }}"/' values-prod.yaml
 
-            git config user.name "github-actions" 
-            git config user.email "actions@github.com" 
+          git config user.name "github-actions" 
+          git config user.email "actions@github.com" 
             
-            git add . 
-            git commit -m "update prod image to ${{ github.sha }}" 
-            git push
+          git add . 
+          git commit -m "update prod image to ${{ github.sha }}" || true
+          git push
 
