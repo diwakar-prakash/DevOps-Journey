@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const axios = require('axios');
 
-const PRODUCE_SERVICE = 'http://product-service:3001';
+const PRODUCT_SERVICE = 'http://product-service:3001';
 const USER_SERVICE = 'http://user-service:3001';
 
 app.get('/users', async ( req , res ) => {

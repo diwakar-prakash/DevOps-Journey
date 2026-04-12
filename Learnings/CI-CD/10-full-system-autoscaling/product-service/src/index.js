@@ -20,7 +20,7 @@ app.get('/health', ( req , res ) => {
 })
 
 app.get('/ready', ( req , res ) => {
-    req.status(200).send("READY");
+    res.status(200).send("READY");
 })
 
 module.exports = app;
