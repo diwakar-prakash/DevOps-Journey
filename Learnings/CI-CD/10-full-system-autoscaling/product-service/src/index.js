@@ -16,11 +16,11 @@ app.get('/products', ( req , res ) => {
 })
 
 app.get('/health', ( req , res ) => {
-    res.send("OK");
+    res.status(200).send("OK");
 })
 
 app.get('/ready', ( req , res ) => {
-    req.send("READY");
+    req.status(200).send("READY");
 })
 
 module.exports = app;
