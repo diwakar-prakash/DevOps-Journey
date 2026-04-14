@@ -10,7 +10,8 @@ app.get('/users', ( req , res ) => {
         service : APP_NAME,
         data: [
             { id : 1, name : "Vivek" },
-            { id : 2, name : "Harsh" }
+            { id : 2, name : "Harsh" },
+	    { id : 3, name : "Mark" }
         ]
     })
 })
