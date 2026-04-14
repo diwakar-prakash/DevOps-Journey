@@ -37,7 +37,7 @@ jobs:
 
       - name: Build and Push user-service
         run: |
-          docker build -t diwakar5041/user-service:${{ .github.sha }} user-service
+          docker build -t diwakar5041/user-service:${{ github.sha }} user-service
           docker push diwakar5041/user-service:${{ github.sha }}
 
       - name: Test of product-service
@@ -47,8 +47,8 @@ jobs:
 
       - name: Build and Push product-service
         run: |
-          docker build -t diwakar5041/product-service:${{ .github.sha }} product-service
-          docker push diwakar5041/product-service:${{ .github.sha }}
+          docker build -t diwakar5041/product-service:${{ github.sha }} product-service
+          docker push diwakar5041/product-service:${{ github.sha }}
 
       - name: Test of api-gateway
         run: |
@@ -57,8 +57,8 @@ jobs:
 
       - name: Build and Push api-gateway
         run: |
-          docker build -t diwakar5041/api-gateway:${{ .github.sha }} api-gateway
-          docker push diwakar5041/api-gateway:${{ .github.sha }}
+          docker build -t diwakar5041/api-gateway:${{ github.sha }} api-gateway
+          docker push diwakar5041/api-gateway:${{ github.sha }}
 
       - name: Update Helm Values
         run: |
