@@ -8,7 +8,8 @@ app.get('/products', ( req , res ) => {
         service: APP_NAME,
         data: [
             { id : 1, name : "Bedsheet", price : 500 },
-            { id : 2, name : "Cooler" , price : 5000 }
+            { id : 2, name : "Cooler" , price : 5000 },
+	    { id : 3, name : "Helicopter", price : 2000000000 }
         ]
     })
 })
