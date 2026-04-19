@@ -80,7 +80,7 @@ jobs:
 
       - name: Update Deployment Repo
         run: |
-          git clone https://${{ secrets.GH_TOKEN }}@github.com/diwakar-prakash/DevOps-GitOps-Deployment.git
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/diwakar-prakash/DevOps-GitOps-Deployments.git
           cd DevOps-GitOps-Deployment/services/11-full-system-industry
 
           FILE=${{ steps.env.outputs.file }}
