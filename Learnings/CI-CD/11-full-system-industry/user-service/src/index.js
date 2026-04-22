@@ -3,7 +3,15 @@ const app = express();
 
 const APP_NAME = process.env.APP_NAME || "user-service";
 
+const heavyTask = () => {
+	let count = 0;
+	for ( let i = 0; i<1e8; i++ ) {
+		count += i;
+	}
+};
+
 app.get('/users', (req, res) => {
+    heavyTask();
     res.json({
         service: APP_NAME,
         data: [

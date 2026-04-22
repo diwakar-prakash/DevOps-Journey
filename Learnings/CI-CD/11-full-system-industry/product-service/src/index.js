@@ -3,7 +3,15 @@ const app = express();
 
 const APP_NAME = process.env.APP_NAME || 'product-service';
 
+const heavyTask = () => {
+  let count = 0;
+  for (let i = 0; i < 1e8; i++) {
+    count += i;
+  }
+};
+
 app.get('/products', ( req , res ) => {
+    heavyTask();
     res.status(200).json({
         service: APP_NAME,
         data: [
