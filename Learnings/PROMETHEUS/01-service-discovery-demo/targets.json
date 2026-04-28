@@ -1,0 +1,20 @@
+[
+    {
+        "targets": ["172.17.0.1:9100"],
+        "labels": {
+            "env": "dev"
+        }
+    },
+    {
+        "targets": ["172.17.0.1:9200"],
+        "labels": {
+            "env": "prod"
+        }
+    },
+    {
+        "targets": ["172.17.0.1:9300"],
+        "labels": {
+            "env": "staging"
+        }
+    }
+]
