@@ -98,3 +98,49 @@ jobs:
           IMAGE=${{ secrets.DOCKER_USERNAME }}/api-gateway:${{ github.sha }}
           docker build -t $IMAGE
           docker push $IMAGE
+
+  update-deployment:
+    needs: [user-service, product-service, api-gateway]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Deployment Repo
+        run: |
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/diwakar-prakash/DevOps-GitOps-Deployments.git
+
+      - name: Update Tags Dynamically
+        run: |
+          cd DevOps-GitOps-Deployments/services/12-system-autoscaling-role
+          
+          # DECIDE THE FILE BASED ON BRANCH
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            FILE="values-prod.yaml"
+          elif [ "${{ github.ref_name }}" == "staging" ]; then
+            FILE="values-staging.yaml"
+          else
+            FILE="values-dev.yaml"
+          fi
+
+          echo "Updating environment file: $FILE"
+
+          # UPDATE ONLY THE CHANGED SERVICES
+          if [ "${{ needs.detect-changes.outputs.user }}" == "true" ]; then
+            yq -i ".user.tag = \"${{ github.sha }}\"" $FILE
+          fi
+          if [ "${{ needs.detect-changes.outputs.product }}" == "true" ]; then
+            yq -i ".product.tag = \"${{ github.sha }}\"" $FILE
+          fi
+          if [ "${{ needs.detect-changes.outputs.gateway }}" == "true" ]; then
+            yq -i ".gateway.tag = \"${{ github.sha }}\"" $FILE
+          fi
+
+      - name: Commit & Push
+        run: |
+          cd DevOps-GitOps-Deployments
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Deploy commit ${{ github.sha }} to ${{ github.ref_name }}" || echo "No changes"
+          git push
+
+          
