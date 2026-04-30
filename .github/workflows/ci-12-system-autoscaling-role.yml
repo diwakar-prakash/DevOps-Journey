@@ -72,7 +72,7 @@ jobs:
       - name: Build and Push
         run: |
           IMAGE=${{ secrets.DOCKER_USERNAME }}/product-service:${{ github.sha }}
-          docker build -t $IMAGE
+          docker build -t $IMAGE .
           docker push $IMAGE
 
   api-gateway:
@@ -96,7 +96,7 @@ jobs:
       - name: Build and Push
         run: |
           IMAGE=${{ secrets.DOCKER_USERNAME }}/api-gateway:${{ github.sha }}
-          docker build -t $IMAGE
+          docker build -t $IMAGE .
           docker push $IMAGE
 
   update-deployment:
@@ -107,6 +107,11 @@ jobs:
       - name: Clone Deployment Repo
         run: |
           git clone https://${{ secrets.GH_TOKEN }}@github.com/diwakar-prakash/DevOps-GitOps-Deployments.git
+
+      - name: Install YQ
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
 
       - name: Update Tags Dynamically
         run: |
