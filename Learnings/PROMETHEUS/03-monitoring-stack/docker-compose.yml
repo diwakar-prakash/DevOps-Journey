@@ -1,0 +1,71 @@
+version: "3.9"
+
+services:
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+      
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+
+    restart: unless-stopped
+    networks:
+      - welcome
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - node-exporter
+    restart: unless-stopped
+    networks:
+      - welcome
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+    environment:
+      GF_SMTP_ENABLED: "true"
+      GF_SMTP_HOST: "smtp.gmail.com:587"
+      GF_SMTP_USER: "dpkeshav1@gmail.com"
+      GF_SMTP_PASSWORD: "xyws ouur vfbf lgpy"
+      GF_SMTP_FROM_ADDRESS: "dpkeshav1@gmail.com"
+      GF_SMTP_FROM_NAME: "Grafana Alerts"
+      GF_SMTP_SKIP_VERIFY: "false"
+      GF_SMTP_STARTTLS_POLICY: "MandatoryStartTLS"
+
+    depends_on:
+      - prometheus
+
+    restart: unless-stopped
+
+    networks:
+      - welcome
+
+networks:
+  welcome:
+
+volumes:
+  grafana-data:
+
