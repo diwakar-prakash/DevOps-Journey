@@ -1,0 +1,30 @@
+groups:
+- name: microservices
+  rules:
+  - alert: APIGatewayDown
+    expr: up{job="api-gateway"} == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: API Gateway is down
+      description: API Gateway has been unreachable for more than 30 seconds.
+
+  - alert: UserServiceDown
+    expr: up{job="user-service"} == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: User Service is down
+      description: User Service has been unreachable for more than 30 seconds.
+
+  - alert: ProductServiceDown
+    expr: up{job="product-service"} == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: Product Service is down
+      description: Product Service has been unreachable for more than 30 seconds.
+

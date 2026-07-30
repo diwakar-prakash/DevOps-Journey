@@ -1,0 +1,7 @@
+global:
+route:
+  receiver: email-notifications
+
+receivers:
+  - name: email-notifications
+
